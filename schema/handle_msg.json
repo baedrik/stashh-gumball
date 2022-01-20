@@ -1,0 +1,458 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HandleMsg",
+  "description": "Handle messages",
+  "anyOf": [
+    {
+      "description": "BatchReceiveNft is called when the gumball is sent NFTs.  This signifies the desire to include those NFTs in the possible random selections",
+      "type": "object",
+      "required": [
+        "batch_receive_nft"
+      ],
+      "properties": {
+        "batch_receive_nft": {
+          "type": "object",
+          "required": [
+            "from",
+            "token_ids"
+          ],
+          "properties": {
+            "from": {
+              "description": "address of the previous owner of the tokens being added to the gumball",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "token_ids": {
+              "description": "list of tokens sent",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "ReceiveNft is only included to maintain CW721 compliance.  Hopefully everyone uses the superior BatchReceiveNft process.  ReceiveNft is called when the gumball is sent an NFT. This signifies the desire to include that NFT as a possible random selection",
+      "type": "object",
+      "required": [
+        "receive_nft"
+      ],
+      "properties": {
+        "receive_nft": {
+          "type": "object",
+          "required": [
+            "sender",
+            "token_id"
+          ],
+          "properties": {
+            "sender": {
+              "description": "address of the previous owner of the token being sent to the gumball",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                }
+              ]
+            },
+            "token_id": {
+              "description": "the token sent",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "Create a viewing key",
+      "type": "object",
+      "required": [
+        "create_viewing_key"
+      ],
+      "properties": {
+        "create_viewing_key": {
+          "type": "object",
+          "required": [
+            "entropy"
+          ],
+          "properties": {
+            "entropy": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "Set a viewing key",
+      "type": "object",
+      "required": [
+        "set_viewing_key"
+      ],
+      "properties": {
+        "set_viewing_key": {
+          "type": "object",
+          "required": [
+            "key"
+          ],
+          "properties": {
+            "key": {
+              "type": "string"
+            },
+            "padding": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "allows an admin to add more admins",
+      "type": "object",
+      "required": [
+        "add_admins"
+      ],
+      "properties": {
+        "add_admins": {
+          "type": "object",
+          "required": [
+            "admins"
+          ],
+          "properties": {
+            "admins": {
+              "description": "list of address to grant admin priveleges",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "allows an admin to remove admin addresses",
+      "type": "object",
+      "required": [
+        "remove_admins"
+      ],
+      "properties": {
+        "remove_admins": {
+          "type": "object",
+          "required": [
+            "admins"
+          ],
+          "properties": {
+            "admins": {
+              "description": "list of address to revoke admin priveleges from",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "add to whitelist.  This whitelist is for who is permitted to receive a free random NFT. Whitelisting for purchases must be done on the listing level, or a single non-whitelisted purchaser will cause all whitelisted purchases in the same batch to fail",
+      "type": "object",
+      "required": [
+        "add_to_whitelist"
+      ],
+      "properties": {
+        "add_to_whitelist": {
+          "type": "object",
+          "required": [
+            "addresses"
+          ],
+          "properties": {
+            "addresses": {
+              "description": "whitelisted addresses",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "remove from whitelist.  This whitelist is for who is permitted to receive a free random NFT. Whitelisting for purchases must be done on the listing level, or a single non-whitelisted purchaser will cause all whitelisted purchases in the same batch to fail",
+      "type": "object",
+      "required": [
+        "remove_from_whitelist"
+      ],
+      "properties": {
+        "remove_from_whitelist": {
+          "type": "object",
+          "required": [
+            "addresses"
+          ],
+          "properties": {
+            "addresses": {
+              "description": "de-whitelisted addresses",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "Mint an NFT for each buyer.  This can only be called by a listing contract this minter has created, an admin, or a whitelisted address",
+      "type": "object",
+      "required": [
+        "mint"
+      ],
+      "properties": {
+        "mint": {
+          "type": "object",
+          "required": [
+            "buyers",
+            "entropy"
+          ],
+          "properties": {
+            "buyers": {
+              "description": "the addresses that should receive NFTs",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            },
+            "entropy": {
+              "description": "string used for entropy",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "create a gumball listing",
+      "type": "object",
+      "required": [
+        "create_listing"
+      ],
+      "properties": {
+        "create_listing": {
+          "type": "object",
+          "required": [
+            "batch_send",
+            "buy_contract",
+            "closes_at",
+            "entropy",
+            "factory_contract",
+            "label",
+            "price"
+          ],
+          "properties": {
+            "batch_send": {
+              "description": "true if purchasing token implements BatchSend",
+              "type": "boolean"
+            },
+            "buy_contract": {
+              "description": "purchase contract code hash and address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContractInfo"
+                }
+              ]
+            },
+            "closes_at": {
+              "description": "timestamp after which the operator may close the listing. Timestamp is in seconds since epoch 01/01/1970",
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "description": {
+              "description": "Optional free-form description of the listing",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "entropy": {
+              "description": "entropy used for random viewing key generation",
+              "type": "string"
+            },
+            "factory_contract": {
+              "description": "factory contract code hash and address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContractInfo"
+                }
+              ]
+            },
+            "label": {
+              "description": "String label for the listing",
+              "type": "string"
+            },
+            "payment_address": {
+              "description": "optional address to send proceeds to if not the creator",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/HumanAddr"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "price": {
+              "description": "listing price",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Uint128"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "register a listing address that will be allowed to request minting.  This will only be accepted from the factory address just called when doing the CreateListing",
+      "type": "object",
+      "required": [
+        "register_listing"
+      ],
+      "properties": {
+        "register_listing": {
+          "type": "object",
+          "required": [
+            "listing_address"
+          ],
+          "properties": {
+            "listing_address": {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "disallow the use of a permit",
+      "type": "object",
+      "required": [
+        "revoke_permit"
+      ],
+      "properties": {
+        "revoke_permit": {
+          "type": "object",
+          "required": [
+            "permit_name"
+          ],
+          "properties": {
+            "permit_name": {
+              "description": "name of the permit that is no longer valid",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "set a viewing key with an nft contract that is different from the contract this gumball was created for. This can only be called by an admin and can only be used on contracts that are not the nft contract specified during instantiation, because that would allow an admin to see what nfts are still left in the gumball. This is only meant to facilitate in the retrieval of an nft accidentally sent to the gumball",
+      "type": "object",
+      "required": [
+        "set_viewing_key_with_collection"
+      ],
+      "properties": {
+        "set_viewing_key_with_collection": {
+          "type": "object",
+          "required": [
+            "nft_contract",
+            "viewing_key"
+          ],
+          "properties": {
+            "nft_contract": {
+              "description": "the code hash and address of the other nft contract that controls an nft that was accidentally sent to the gumball",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContractInfo"
+                }
+              ]
+            },
+            "viewing_key": {
+              "description": "viewing key to set with that nft contract",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "retrieve an nft that is from a different contract than what the gumball was created for, but was accidentally sent to the gumball.  This can only be called by an admin and can only be used on contracts that are not the nft contract specified during instantiation, because that would allow an admin to handpick rare nfts instead of getting a random selection",
+      "type": "object",
+      "required": [
+        "retrieve_nft"
+      ],
+      "properties": {
+        "retrieve_nft": {
+          "type": "object",
+          "required": [
+            "nft_contract",
+            "token_ids"
+          ],
+          "properties": {
+            "nft_contract": {
+              "description": "the code hash and address of the other nft contract that controls an nft that was accidentally sent to the gumball",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContractInfo"
+                }
+              ]
+            },
+            "token_ids": {
+              "description": "ids of the tokens to transfer to the admin doing this tx",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "ContractInfo": {
+      "description": "code hash and address of a secret contract",
+      "type": "object",
+      "required": [
+        "address",
+        "code_hash"
+      ],
+      "properties": {
+        "address": {
+          "description": "contract's address",
+          "allOf": [
+            {
+              "$ref": "#/definitions/HumanAddr"
+            }
+          ]
+        },
+        "code_hash": {
+          "description": "contract's code hash string",
+          "type": "string"
+        }
+      }
+    },
+    "HumanAddr": {
+      "type": "string"
+    },
+    "Uint128": {
+      "type": "string"
+    }
+  }
+}

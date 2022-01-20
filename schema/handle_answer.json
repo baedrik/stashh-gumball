@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HandleAnswer",
+  "description": "Responses from handle functions",
+  "anyOf": [
+    {
+      "description": "response from creating a viewing key",
+      "type": "object",
+      "required": [
+        "viewing_key"
+      ],
+      "properties": {
+        "viewing_key": {
+          "type": "object",
+          "required": [
+            "key"
+          ],
+          "properties": {
+            "key": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from adding/removing admins",
+      "type": "object",
+      "required": [
+        "admins_list"
+      ],
+      "properties": {
+        "admins_list": {
+          "type": "object",
+          "required": [
+            "admins"
+          ],
+          "properties": {
+            "admins": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HumanAddr"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from revoking a permit",
+      "type": "object",
+      "required": [
+        "revoke_permit"
+      ],
+      "properties": {
+        "revoke_permit": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from adding to a whitelist",
+      "type": "object",
+      "required": [
+        "add_to_whitelist"
+      ],
+      "properties": {
+        "add_to_whitelist": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from removing from a whitelist",
+      "type": "object",
+      "required": [
+        "remove_from_whitelist"
+      ],
+      "properties": {
+        "remove_from_whitelist": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "response from retrieving nfts from the wrong collection",
+      "type": "object",
+      "required": [
+        "retrieve_nft"
+      ],
+      "properties": {
+        "retrieve_nft": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "HumanAddr": {
+      "type": "string"
+    }
+  }
+}
