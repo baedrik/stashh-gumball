@@ -184,8 +184,8 @@ fn try_set_key_with_coll<S: Storage, A: Api, Q: Querier>(
         viewing_key.clone(),
         None,
         BLOCK_SIZE,
-        contract.code_hash,
-        contract.address,
+        nft_contract.code_hash,
+        nft_contract.address,
     )?];
     Ok(HandleResponse {
         messages,
@@ -231,8 +231,8 @@ fn try_retrieve<S: Storage, A: Api, Q: Querier>(
     }];
     let messages = vec![
         Snip721HandleMsg::BatchTransferNft { transfers }.to_cosmos_msg(
-            contract.code_hash,
-            contract.address,
+            nft_contract.code_hash,
+            nft_contract.address,
             None,
         )?,
     ];
